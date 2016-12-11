@@ -1,0 +1,35 @@
+---
+title: "Campus Locations of the University of Sierra Leone"
+author: "Daniel Chaytor"
+date: "December 11, 2016"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Campus map
+The map below shows the locations of the main offices of the three constituent colleges of the University of Sierra Leone, as at December 11, 2016. Click on each marker to visit the website of the respective college.
+
+```{r, echo=FALSE, comment= "", warning=FALSE, message=FALSE}
+library(leaflet)
+set.seed(2016-04-25)
+
+slUnivLatLong <- data.frame(
+  lat = c(8.484962, 8.477522, 8.470152),
+  lng = c(-13.231505, -13.22113, -13.23913), 
+  col = c("red", "blue", "green"), stringsAsFactors = FALSE)
+
+USLSites <- c(
+  "<a href='http://www.usl.edu.sl/?page_id=1228'>IPAM</a>",
+  "<a href='http://www.usl.edu.sl/?page_id=799'>Fourah Bay College</a>",
+  "<a href='http://www.usl.edu.sl/?page_id=786'>College of Medicine</a>"
+)
+
+slUnivLatLong %>%
+  leaflet() %>%
+  addTiles() %>%
+  addCircleMarkers(color = slUnivLatLong$col, popup = USLSites) %>%
+  addLegend(labels = c("IPAM", "Fourah Bay College", "College of Medicine"), colors = c("red", "blue", "green"), title = "University of Sierra Leone campuses")
+```
