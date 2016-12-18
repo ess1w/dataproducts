@@ -1,0 +1,56 @@
+---
+title: "Reported cases of Ebola in West Africa, March - September 2014 "
+author: "Daniel Chaytor"
+date: "December 18, 2016"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Start of the Ebola Outbreak
+
+The outbreak of the Ebola epidemic in West Africa in 2014 was the most widespread the world has ever seen of the Ebola virus disease. From the first reported case in the town of Gu?ck?dou in Eastern Guinea, it spread to Liberia and then to Sierra Leone, reaching epidemic proportions for the first time. 
+
+More information on the outbreak may be found on Wikipedia <https://en.wikipedia.org/wiki/West_African_Ebola_virus_epidemic> and on the website of the Centers for Disease Control <https://www.cdc.gov/vhf/ebola/outbreaks/2014-west-africa/>.
+
+## Recording of New Cases
+
+Daily data on new reported cases was recorded and reported in all three countries. In Sierra Leone, the National Ebola Response Centre (NERC) published daily situation reports. With support from the CDC, the World Health Organization (WHO) and a number of other bodies, data was collected and new cases and potential contacts were tracked daily.
+
+Data for this presentation was sourced and put together manually from the following:
+
+- Ebola dataset repositories on GitHub
+- The NERC website <http://nerc.sl/>
+
+## Data on Country Cases
+
+The data aggregates the number of cases for four countries in West Africa by month from March to September 2014. A sample of the data is shown below. 
+
+```{r, echo = FALSE, warning=FALSE, message=FALSE, comment=""}
+library(plotly)
+library(tidyr)
+library(dplyr)
+
+setwd("C:/Users/Chay/Documents/Training/Data Science/Data Products")
+evddf <- read.csv("./Week 3/ebola-reg.csv")
+
+head(evddf)
+```
+
+The next slide shows a plot of the cases by month for the four countries, Sierra Leone, Liberia, Guinea and Senegal.
+
+## Plot of Ebola Cases
+
+```{r, echo = FALSE, fig.align='center', warning=FALSE, message=FALSE}
+
+evddf <- evddf[,c(1,2,6)]
+evddf$Month <- month.abb[evddf$Month]
+evddf$Month <- factor(evddf$Month, levels = evddf[["Month"]])
+plot_ly(evddf, type = 'scatter', x = ~Month, y = ~Value, color = ~Country) %>%
+  layout(title = "Number of Ebola Cases reported in West Africa - 2014",
+         xaxis = list(title = "Months"),
+         yaxis = list (title = "Number of Cases"))
+```
+
